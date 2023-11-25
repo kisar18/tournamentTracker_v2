@@ -8,9 +8,11 @@ import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import '../App.css';
 import { ENDPOINTS, createAPIEndpoint } from '../api';
+import { useNavigate } from 'react-router-dom';
 
 function CreateTeam() {
   const [teamName, setTeamName] = useState("");
+  const navigate = useNavigate();
 
   const createTeam = e => {
     e.preventDefault();
@@ -20,6 +22,7 @@ function CreateTeam() {
         console.log(res.data);
       })
       .catch(err => console.log());
+    navigate("/createTournament");
   };
 
   return (

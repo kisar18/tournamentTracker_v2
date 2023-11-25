@@ -22,13 +22,15 @@ function CreateTournament() {
   const [teams, setTeams] = useState([]);
   const [tournamentName, setTournamentName] = useState("");
   const [entryFee, setEntryFee] = useState(0);
+  const [tournamentType, setTournamentType] = useState("Groups");
+  const [tournamentTypes] = useState(["Groups", "Knockout"]);
   const [prizes, setPrizes] = useState([]);
   const [selectedTeam, setSelectedTeam] = useState("");
   const [tournamentTeams, setTournamentTeams] = useState(initialTournamentTeams);
   const [selectedTeamInTournamentTeams, setSelectedTeamInTournamentTeams] = useState(null);
   const [selectedTournamentPrize, setSelectedTournamentPrize] = useState(null);
-  const navigate = useNavigate();
   const { state, dispatch } = useCreateTournamentContext();
+  const navigate = useNavigate();
 
   useEffect(() => {
     createAPIEndpoint(ENDPOINTS.team)
@@ -46,10 +48,14 @@ function CreateTournament() {
 
   const createTournament = e => {
     e.preventDefault();
+
+    const teamObjects = tournamentTeams.map(teamName => ({ teamName }));
+
     createAPIEndpoint(ENDPOINTS.tournament)
-      .post({ tournamentName: tournamentName, entryFee: entryFee })
+      .post({ tournamentName: tournamentName, entryFee: entryFee, tournamentType: tournamentType, tournamentTeams: teamObjects })
       .then(res => {
         console.log(res.data);
+        navigate("/");
       })
       .catch(err => console.log(err));
   };
@@ -124,6 +130,19 @@ function CreateTournament() {
             <h4 className='smallHeading'>Entry fee</h4>
             <TextField size='small' variant="outlined" sx={{ ml: 3 }} value={entryFee} onChange={e => { setEntryFee(e.target.value); }} />
           </Box>
+          <Box sx={{ display: "flex", mt: 4, flexDirection: "column" }}>
+            <h4 className='smallHeading'>Tournament type</h4>
+            <FormControl fullWidth size='small'>
+              <Select
+                onChange={e => { setTournamentType(e.target.value); }}
+                value={tournamentType}
+              >
+                {tournamentTypes && tournamentTypes.map((t_type, index) => (
+                  <MenuItem key={index} value={t_type}>{t_type}</MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </Box>
           <Box sx={{ mt: 4 }}>
             <Box sx={{ display: "flex", justifyContent: "space-between" }}>
               <h4 className='smallHeading'>Select team</h4>
@@ -131,15 +150,12 @@ function CreateTournament() {
             </Box>
             <FormControl fullWidth size='small'>
               <Select
-                id="tournamentTeams"
-                name="tournamentTeams"
                 onChange={e => { setSelectedTeam(e.target.value); }}
                 value={selectedTeam}
               >
                 {teams && teams.map((team) => (
                   <MenuItem key={team._id} value={team.teamName}>{team.teamName}</MenuItem>
-                ))
-                }
+                ))}
               </Select>
             </FormControl>
           </Box>
