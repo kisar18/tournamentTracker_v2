@@ -1,0 +1,32 @@
+Team:
+TeamMembers (List<Person>)
+TeamName (string)
+
+Person:
+FirstName (string)
+LastName (string)
+EmailAddress (string)
+PhoneNumber (string)
+
+Tournament:
+TournamentName (string)
+EntryFee (decimal)
+EnteredTeams (List<Team>)
+Prizes (List<Prize>)
+Rounds (List<List<Matchup>>)
+
+Prize:
+PlaceNumber (integer)
+PlaceName (string)
+PrizeAmount (decimal)
+PrizePercentage (double)
+
+Matchup:
+Entries (List<Matchup>)
+Winner (Team)
+MatchupRound (integer)
+
+MatchupEntry:
+TeamCompeting (Team)
+Score (double)
+ParentMatchup (Matchup)
