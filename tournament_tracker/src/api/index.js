@@ -15,7 +15,8 @@ export const createAPIEndpoint = endpoint => {
     getAll: () => axios.get(url),
     getById: id => axios.get(url + id),
     post: newRecord => axios.post(url, newRecord),
-    put: (id, updatedRecord) => axios.put(`${url}${id}/scores`, updatedRecord),
+    putScores: (id, requestBody) => axios.put(`${url}${id}/scores`, requestBody),
+    putEntryFee: (id, requestBody) => axios.put(`${url}${id}/fee`, requestBody),
     delete: id => axios.delete(url + id),
   };
 };

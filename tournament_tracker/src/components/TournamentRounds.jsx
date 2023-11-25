@@ -61,7 +61,7 @@ function TournamentRounds() {
         };
 
         try {
-          const response = await createAPIEndpoint(ENDPOINTS.tournament).put(location.state.tournamentId, requestBody);
+          const response = await createAPIEndpoint(ENDPOINTS.tournament).putScores(location.state.tournamentId, requestBody);
 
           if (response.status === 200) {
             fetchData();

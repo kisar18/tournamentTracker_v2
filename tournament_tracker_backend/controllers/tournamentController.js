@@ -156,7 +156,7 @@ const createTournament = async (req, res) => {
   }
 };
 
-const updateTournament = async (req, res) => {
+const updateTournamentScores = async (req, res) => {
   const { id } = req.params;
   const { round, matchupIndex, score } = req.body;
 
@@ -188,6 +188,28 @@ const updateTournament = async (req, res) => {
     res.status(200).json({ message: 'Scores updated successfully' });
   } catch (error) {
     console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+};
+
+const updateTournamentTeamsFee = async (req, res) => {
+  const { id } = req.params;
+  const { teamName } = req.body;
+
+  try {
+    const tournament = await Tournament.findById(id);
+
+    for (let i = 0; i < tournament.teams.length; i++) {
+      if (tournament.teams[i].teamName === teamName) {
+        tournament.teams[i].payedEntryFee = !tournament.teams[i].payedEntryFee;
+        break;
+      }
+    }
+    await tournament.save();
+    res.status(200).json({ message: 'Entry fee for a team was updated successfully' });
+  }
+  catch (error) {
+    console.log(error);
     res.status(500).json({ error: 'Internal Server Error' });
   }
 };
@@ -240,4 +262,4 @@ const fillRoundsForGroups = (groups, tablePattern) => {
   return rounds;
 };
 
-export default { getTournaments, getTournament, createTournament, updateTournament, deleteTournament };
+export default { getTournaments, getTournament, createTournament, updateTournamentScores, updateTournamentTeamsFee, deleteTournament };

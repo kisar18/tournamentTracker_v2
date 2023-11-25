@@ -1,4 +1,4 @@
-import { Box, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
+import { Box, Button, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { ENDPOINTS, createAPIEndpoint } from '../api';
 import { useLocation } from 'react-router-dom';
@@ -11,7 +11,6 @@ function TeamsEntryFee() {
   const fetchData = async () => {
     try {
       const res = await createAPIEndpoint(ENDPOINTS.tournament).getById(location.state.tournamentId);
-      console.log(res.data);
 
       setTournament(res.data);
       setTeams(res.data.teams);
@@ -24,6 +23,21 @@ function TeamsEntryFee() {
     fetchData();
   }, []);
 
+  const handleTeamFeeSubmit = async (tName) => {
+    try {
+      const response = await createAPIEndpoint(ENDPOINTS.tournament).putEntryFee(location.state.tournamentId, { teamName: tName });
+
+      if (response.status === 200) {
+        fetchData();
+        console.log('Entry fee updated successfully');
+      } else {
+        console.error('Failed to update scores');
+      }
+    } catch (error) {
+      console.error('Error updating scores:', error);
+    }
+  };
+
   return (
     <Box>
       <TableContainer component={Paper} sx={{ border: "1px solid black" }}>
@@ -32,6 +46,7 @@ function TeamsEntryFee() {
             <TableRow>
               <TableCell align='center' sx={{ fontWeight: "bold" }}>Team / Player Name</TableCell>
               <TableCell align='center' sx={{ fontWeight: "bold" }}>Payed Entry Fee</TableCell>
+              <TableCell align='center' sx={{ fontWeight: "bold" }}>Action</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -40,7 +55,14 @@ function TeamsEntryFee() {
                 <TableCell align='center'>{team.teamName}</TableCell>
                 {team.payedEntryFee === true ?
                   <TableCell align='center'>Yes</TableCell> :
-                  <TableCell align='center'>No</TableCell>}
+                  <TableCell align='center'>No</TableCell>
+                }
+                <TableCell align='center'>
+                  {team.payedEntryFee === true ?
+                    <Button variant='contained' color='error' onClick={() => handleTeamFeeSubmit(team.teamName)}>Un-pay</Button> :
+                    <Button variant='contained' color='success' onClick={() => handleTeamFeeSubmit(team.teamName)}>Pay</Button>
+                  }
+                </TableCell>
               </TableRow>
             ))}
           </TableBody>
