@@ -84,6 +84,14 @@ function TournamentRounds() {
     });
   };
 
+  const handleFeesList = (_id) => {
+    navigate("/feesList", {
+      state: {
+        tournamentId: _id,
+      }
+    });
+  };
+
   return (
     <Box sx={{ mt: 4, width: "90%" }}>
       <Box sx={{ display: "flex", justifyContent: "space-evenly" }}>
@@ -141,6 +149,9 @@ function TournamentRounds() {
         </Box>
         <Box sx={{ display: "flex", mt: 3, justifyContent: "center" }}>
           <Button variant='contained' onClick={handleScoresSubmit}>Save results</Button>
+        </Box>
+        <Box sx={{ display: "flex", mt: 3, justifyContent: "center" }}>
+          <Button variant='outlined' onClick={() => handleFeesList(location.state.tournamentId)}>See payed fees</Button>
         </Box>
         <Box sx={{ display: 'flex', justifyContent: "center" }}>
           <Button variant="outlined" sx={{ mt: 2 }} onClick={() => handleLoadTournamentGroups(location.state.tournamentId)}>Load tournament groups</Button>

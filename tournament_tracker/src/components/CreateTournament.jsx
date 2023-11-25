@@ -49,7 +49,7 @@ function CreateTournament() {
   const createTournament = e => {
     e.preventDefault();
 
-    const teamObjects = tournamentTeams.map(teamName => ({ teamName }));
+    const teamObjects = tournamentTeams.map(teamName => ({ teamName, payedEntryFee: false }));
 
     createAPIEndpoint(ENDPOINTS.tournament)
       .post({ tournamentName: tournamentName, entryFee: entryFee, tournamentType: tournamentType, tournamentTeams: teamObjects })

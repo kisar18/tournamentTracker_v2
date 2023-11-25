@@ -4,11 +4,11 @@ import CreateTeam from './components/CreateTeam';
 import CreateTournament from './components/CreateTournament';
 import TournamentDashboard from './components/TournamentDashboard';
 import TournamentRounds from './components/TournamentRounds';
-import TournamentTracker from './components/TournamentTracker';
 import Box from "@mui/material/Box";
 import { Route, Routes, BrowserRouter } from "react-router-dom";
 import Typography from '@mui/material/Typography';
 import GroupTable from './components/GroupTable';
+import TeamsEntryFee from './components/TeamsEntryFee';
 
 function App() {
   return (
@@ -22,6 +22,7 @@ function App() {
           <Route exact path='/createPrize' element={<CreatePrize />} />
           <Route exact path='/createTeam' element={<CreateTeam />} />
           <Route exact path='/groups' element={<GroupTable />} />
+          <Route exact path='/feesList' element={<TeamsEntryFee />} />
         </Routes>
       </Box>
     </BrowserRouter>

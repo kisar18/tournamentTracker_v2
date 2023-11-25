@@ -20,7 +20,8 @@ const tournamentSchema = mongoose.Schema({
     group: Number
   }]],
   teams: [{
-    teamName: String
+    teamName: String,
+    payedEntryFee: Boolean
   }],
   prizes: [{
     prizeName: String,
