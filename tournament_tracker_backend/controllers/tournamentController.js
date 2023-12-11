@@ -77,7 +77,7 @@ const createTournament = async (req, res) => {
     var groups = [];
     let roundedNumberOfTeams;
 
-    if (tournamentType === "Groups") {
+    if (tournamentType === "Groups" || tournamentType === "One group") {
       if (tournamentTeams.length % 2 === 0) {
         roundedNumberOfTeams = tournamentTeams.length;
       }
@@ -86,17 +86,20 @@ const createTournament = async (req, res) => {
       }
 
       var group1 = [];
-      var group2 = [];
       groups.push(group1);
-      groups.push(group2);
+
+      if (tournamentType === "Groups") {
+        var group2 = [];
+        groups.push(group2);
+      }
 
       // Only 2 groups in this version
-      for (let i = 0; i < roundedNumberOfTeams; i++) {
-        if (tournamentTeams.length !== roundedNumberOfTeams && i === roundedNumberOfTeams - 1) {
-          groups[i % 2].push({ teamName: "None", pointsWon: 0, pointsLost: 0, gamesWon: 0 });
+      for (let i = 0; i < tournamentTeams.length; i++) {
+        if (tournamentType === "Groups") {
+          groups[i % 2].push({ teamName: tournamentTeams[i].teamName, pointsWon: 0, pointsLost: 0, gamesWon: 0 });
         }
         else {
-          groups[i % 2].push({ teamName: tournamentTeams[i].teamName, pointsWon: 0, pointsLost: 0, gamesWon: 0 });
+          groups[0].push({ teamName: tournamentTeams[i].teamName, pointsWon: 0, pointsLost: 0, gamesWon: 0 });
         }
       }
 
@@ -131,7 +134,7 @@ const createTournament = async (req, res) => {
       }
     }
     else {
-      res.status(400).json({ error: "Tournament type can be either Groups or Knockout" });
+      res.status(400).json({ error: "Tournament type can be either Groups, One group or Knockout" });
     }
 
     const existingT = await Tournament.find({ tournamentName });
@@ -140,7 +143,7 @@ const createTournament = async (req, res) => {
       res.status(400).json({ error: "Tournament with this name already exists" });
     }
     else {
-      if (tournamentType === "Groups") {
+      if (tournamentType === "Groups" || tournamentType === "One group") {
         const tournament = await Tournament.create({ tournamentName, entryFee, tournamentType, groups: groups, rounds: rounds, teams: tournamentTeams });
         res.status(200).json(tournament);
       }

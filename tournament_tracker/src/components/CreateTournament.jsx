@@ -23,7 +23,7 @@ function CreateTournament() {
   const [tournamentName, setTournamentName] = useState("");
   const [entryFee, setEntryFee] = useState(0);
   const [tournamentType, setTournamentType] = useState("Groups");
-  const [tournamentTypes] = useState(["Groups", "Knockout"]);
+  const [tournamentTypes] = useState(["Groups", "One group", "Knockout"]);
   const [prizes, setPrizes] = useState([]);
   const [selectedTeam, setSelectedTeam] = useState("");
   const [tournamentTeams, setTournamentTeams] = useState(initialTournamentTeams);
@@ -58,6 +58,8 @@ function CreateTournament() {
       .post({ tournamentName: tournamentName, entryFee: entryFee, tournamentType: tournamentType, tournamentTeams: teamObjects })
       .then(res => {
         console.log(res.data);
+        setTournamentTeams([]);
+        localStorage.clear();
         navigate("/");
       })
       .catch(err => console.log(err));
