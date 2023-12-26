@@ -166,6 +166,9 @@ function TournamentRounds() {
         <Box sx={{ display: 'flex', justifyContent: "center" }}>
           <Button variant="outlined" sx={{ mt: 2 }} onClick={() => handleLoadTournamentGroups(location.state.tournamentId)}>Load tournament groups</Button>
         </Box>
+        <Box sx={{ display: "flex", mt: 3, justifyContent: "center", pb: 4 }}>
+          <Button variant='outlined' onClick={() => navigate("/")}>Back to dashboard</Button>
+        </Box>
       </Box>
     </Box>
   );

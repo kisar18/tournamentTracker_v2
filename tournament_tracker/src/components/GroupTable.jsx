@@ -113,7 +113,7 @@ function GroupTable() {
         </Table>
       </TableContainer>
       <Box sx={{ display: 'flex', justifyContent: "center" }}>
-        <Button variant="outlined" sx={{ mt: 2 }} onClick={() => handleLoadTournament(location.state.tournamentId)}>Back to tournament rounds</Button>
+        <Button variant="outlined" sx={{ mt: 2, pb: 4 }} onClick={() => handleLoadTournament(location.state.tournamentId)}>Back to tournament rounds</Button>
       </Box>
     </Box>
   );

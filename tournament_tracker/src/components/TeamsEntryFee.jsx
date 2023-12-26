@@ -1,13 +1,14 @@
 import { Box, Button, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { ENDPOINTS, createAPIEndpoint } from '../api';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 function TeamsEntryFee() {
   const [tournament, setTournament] = useState({});
   const [teams, setTeams] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
 
   const fetchData = async () => {
     setIsLoading(true);
@@ -39,6 +40,14 @@ function TeamsEntryFee() {
     } catch (error) {
       console.error('Error updating scores:', error);
     }
+  };
+
+  const handleLoadTournament = (_id) => {
+    navigate("/tournamentTracker", {
+      state: {
+        tournamentId: _id,
+      }
+    });
   };
 
   if (isLoading) {
@@ -77,6 +86,9 @@ function TeamsEntryFee() {
           </TableBody>
         </Table>
       </TableContainer>
+      <Box sx={{ display: 'flex', justifyContent: "center", pb: 4 }}>
+        <Button variant="outlined" sx={{ mt: 2 }} onClick={() => handleLoadTournament(location.state.tournamentId)}>Back to tournament rounds</Button>
+      </Box>
     </Box>
   );
 }

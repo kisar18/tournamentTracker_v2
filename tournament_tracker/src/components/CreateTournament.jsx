@@ -38,7 +38,7 @@ function CreateTournament() {
     createAPIEndpoint(ENDPOINTS.team)
       .getAll()
       .then(res => {
-        setTeams(res.data);
+        setTeams(res.data.sort((a, b) => a.teamName.localeCompare(b.teamName)));
         setSelectedTeam(res.data[0].teamName);
       })
       .catch(err => console.log(err));
@@ -165,7 +165,6 @@ function CreateTournament() {
                 value={selectedTeam}
               >
                 {teams && teams
-                  .sort((a, b) => a.teamName.localeCompare(b.teamName))
                   .map((team) => (
                     <MenuItem key={team._id} value={team.teamName}>{team.teamName}</MenuItem>
                   ))}
@@ -175,15 +174,12 @@ function CreateTournament() {
           <Box sx={{ mt: 2, display: 'flex', justifyContent: "center" }}>
             <Button variant="outlined" onClick={addTeamToTournament}>Add team</Button>
           </Box>
-          <Box sx={{ mt: 3, display: "flex", justifyContent: "center" }}>
-            <Button variant="outlined" onClick={() => navigate("/createPrize")}>Create prize</Button>
-          </Box>
         </Box>
-        <Box sx={{ display: "flex", flexDirection: "column", justifyContent: "space-evenly" }}>
-          <Box sx={{ minWidth: "400px" }}>
+        <Box>
+          <Box sx={{ minWidth: "400px", mt: 4 }}>
             <h4 className='smallHeading'>Teams / Players</h4>
             <Box display={{ display: "flex" }}>
-              <List sx={{ width: "70%", border: "1px solid black", borderRadius: "5px", p: 0, overflow: "auto", maxHeight: "200px" }}>
+              <List sx={{ width: "70%", border: "1px solid black", borderRadius: "5px", p: 0, overflow: "auto", maxHeight: "400px" }}>
                 {tournamentTeams
                   .sort()
                   .map((team, index) => (
@@ -203,33 +199,14 @@ function CreateTournament() {
               </List>
               <Button variant="outlined" sx={{ ml: 3, width: "30%", height: "50%" }} onClick={() => deleteTeam(selectedTeamInTournamentTeams)}>Delete selected</Button>
             </Box>
-          </Box>
-          <Box sx={{ mt: 2 }}>
-            <h4 className='smallHeading'>Prizes</h4>
-            <Box display={{ display: "flex" }}>
-              <List sx={{ width: "70%", border: "1px solid black", borderRadius: "5px", p: 0, overflow: "auto", maxHeight: "200px" }}>
-                {prizes && prizes.map((prize, index) => (
-                  <ListItem key={index} disablePadding sx={{
-                    borderBottom: '1px solid black',
-                    '&:last-of-type': {
-                      borderBottom: 'none'
-                    },
-                    backgroundColor: (theme) =>
-                      index === selectedTournamentPrize ? theme.palette.info.light : 'transparent',
-                  }}>
-                    <ListItemButton onClick={() => selectLineInTournamentPrizes(index)}>
-                      <ListItemText primary={prize.prizeName} />
-                    </ListItemButton>
-                  </ListItem>
-                ))}
-              </List>
-              <Button variant="outlined" sx={{ ml: 3, width: "30%", height: "50%" }} onClick={() => deletePrize(selectedTournamentPrize)}>Delete selected</Button>
+            <Box sx={{ display: "flex", justifyContent: "center" }}>
+              <Button variant="outlined" sx={{ mt: 3 }} onClick={() => navigate("/helper")}>Groups helper</Button>
             </Box>
           </Box>
         </Box>
       </Box>
       <Box sx={{ display: "flex", justifyContent: "center" }}>
-        <Button variant="outlined" sx={{ mt: 3 }} onClick={createTournament}> Create tournament</Button>
+        <Button variant="contained" size='large' sx={{ mt: 3, fontWeight: "bold" }} onClick={createTournament}> Create tournament</Button>
       </Box>
     </Box>
   );

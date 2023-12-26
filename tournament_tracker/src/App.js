@@ -9,6 +9,7 @@ import { Route, Routes, BrowserRouter } from "react-router-dom";
 import Typography from '@mui/material/Typography';
 import GroupTable from './components/GroupTable';
 import TeamsEntryFee from './components/TeamsEntryFee';
+import CreateTournamentHelper from './components/CreateTournamentHelper';
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
           <Route exact path='/createTeam' element={<CreateTeam />} />
           <Route exact path='/groups' element={<GroupTable />} />
           <Route exact path='/feesList' element={<TeamsEntryFee />} />
+          <Route exact path='/helper' element={<CreateTournamentHelper />} />
         </Routes>
       </Box>
     </BrowserRouter>
